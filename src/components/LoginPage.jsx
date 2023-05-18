@@ -5,7 +5,7 @@ import { useRef } from 'react'
 export default function LoginPage() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
-  const { signIn } = useAuth()
+  const { signIn, user } = useAuth()
 
   const submitHanlder = async (event) => {
     event.preventDefault()
@@ -13,8 +13,11 @@ export default function LoginPage() {
     const password = passwordRef.current.value
 
     try {
-      const res = await signIn(email, password)
-      console.log('login success')
+      await signIn(email, password)
+      console.log('login success',user)
+      if(user){
+
+      }
     } catch (error) {
       console.error('error', error)
     }

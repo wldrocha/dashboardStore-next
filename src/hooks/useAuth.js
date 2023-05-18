@@ -26,11 +26,16 @@ function useProviderAuth() {
     }
     try {
       const {
-        data: { access_token },
+        data: { access_token: token },
       } = await axios.post(endPoints.auth.login, { email, password })
-      if (access_token) {
-        Cookies.set('token', access_token, { expires: 5 })
+      if (token) {
+        Cookies.set('token', token, { expires: 5 })
       }
+
+      axios.defaults.headers.Authorization = `Bearer ${token}`
+
+      const { data: userData } = await axios.get(endPoints.auth.profile)
+      setUser(userData)
     } catch (error) {
       console.error('🚀 ~ file: useAuth.js:31 ~ signIn ~ error:', error)
     }
