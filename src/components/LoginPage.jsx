@@ -1,16 +1,23 @@
 import { LockClosedIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '@hooks/useAuth'
 import { useRef } from 'react'
 
 export default function LoginPage() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const { signIn } = useAuth()
 
-  const submitHanlder = (event) => {
+  const submitHanlder = async (event) => {
     event.preventDefault()
     const email = emailRef.current.value
     const password = passwordRef.current.value
 
-    console.log(email, password)
+    try {
+      const res = await signIn(email, password)
+      console.log('login success')
+    } catch (error) {
+      console.error('error', error)
+    }
   }
 
   return (
